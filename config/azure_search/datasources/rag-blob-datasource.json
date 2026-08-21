@@ -1,0 +1,17 @@
+{
+  "@odata.context": "https://vectorlibrary.search.windows.net/$metadata#datasources/$entity",
+  "name": "rag-blob-datasource",
+  "description": null,
+  "type": "azureblob",
+  "subtype": null,
+  "credentials": {
+    "connectionString": null
+  },
+  "container": {
+    "name": "rag-documents",
+    "query": null
+  },
+  "dataChangeDetectionPolicy": null,
+  "dataDeletionDetectionPolicy": null,
+  "encryptionKey": null
+}

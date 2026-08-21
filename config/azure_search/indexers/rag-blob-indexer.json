@@ -1,0 +1,23 @@
+{
+  "@odata.context": "https://vectorlibrary.search.windows.net/$metadata#indexers/$entity",
+  "name": "rag-blob-indexer",
+  "description": null,
+  "dataSourceName": "rag-blob-datasource",
+  "skillsetName": "autochunker-ingestor-skillset",
+  "targetIndexName": "vectorized-index-v2",
+  "disabled": null,
+  "schedule": null,
+  "parameters": {
+    "batchSize": null,
+    "maxFailedItems": null,
+    "maxFailedItemsPerBatch": null,
+    "configuration": {
+      "parsingMode": "default",
+      "dataToExtract": "contentAndMetadata",
+      "indexedFileNameExtensions": ".pdf, .docx, .txt, .md, .doc"
+    }
+  },
+  "fieldMappings": [],
+  "outputFieldMappings": [],
+  "encryptionKey": null
+}

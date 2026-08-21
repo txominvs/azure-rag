@@ -1,0 +1,99 @@
+{
+  "@odata.context": "https://vectorlibrary.search.windows.net/$metadata#skillsets/$entity",
+  "name": "autochunker-ingestor-skillset",
+  "description": "",
+  "skills": [
+    {
+      "@odata.type": "#Microsoft.Skills.Text.SplitSkill",
+      "name": "splitSkill",
+      "description": "Split documents into overlapping chunks for RAG",
+      "context": "/document",
+      "defaultLanguageCode": "en",
+      "textSplitMode": "pages",
+      "maximumPageLength": 3000,
+      "pageOverlapLength": 300,
+      "maximumPagesToTake": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/content",
+          "sourceContext": null,
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "textItems",
+          "targetName": "chunks"
+        }
+      ]
+    },
+    {
+      "@odata.type": "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill",
+      "name": "embeddingSkill",
+      "description": "Generate embeddings for document chunks",
+      "context": "/document/chunks/*",
+      "resourceUri": "https://llmengine.services.ai.azure.com",
+      "apiKey": null,
+      "deploymentId": "text-embedding-3-small",
+      "dimensions": 1536,
+      "modelName": "text-embedding-3-small",
+      "inputs": [
+        {
+          "name": "text",
+          "source": "/document/chunks/*",
+          "sourceContext": null,
+          "inputs": []
+        }
+      ],
+      "outputs": [
+        {
+          "name": "embedding",
+          "targetName": "embedding"
+        }
+      ],
+      "authIdentity": null
+    }
+  ],
+  "cognitiveServices": null,
+  "knowledgeStore": null,
+  "indexProjections": {
+    "selectors": [
+      {
+        "targetIndexName": "vectorized-index-v2",
+        "parentKeyFieldName": "parent_id",
+        "sourceContext": "/document/chunks/*",
+        "mappings": [
+          {
+            "name": "content",
+            "source": "/document/chunks/*",
+            "sourceContext": null,
+            "inputs": []
+          },
+          {
+            "name": "contentVector",
+            "source": "/document/chunks/*/embedding",
+            "sourceContext": null,
+            "inputs": []
+          },
+          {
+            "name": "title",
+            "source": "/document/metadata_storage_name",
+            "sourceContext": null,
+            "inputs": []
+          },
+          {
+            "name": "source",
+            "source": "/document/metadata_storage_path",
+            "sourceContext": null,
+            "inputs": []
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "projectionMode": "skipIndexingParentDocuments"
+    }
+  },
+  "encryptionKey": null
+}
