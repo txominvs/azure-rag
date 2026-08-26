@@ -40,7 +40,7 @@ for resource in ["datasources", "indexes", "indexers", "skillsets"]:
         data = response.json()
         data.pop("@odata.etag", None)
 
-        path = base / resource / f"{name}.json"
+        path = base / f"{name}.json" # base / resource / f"{name}.json"
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(data, indent=2) + "\n")
 
