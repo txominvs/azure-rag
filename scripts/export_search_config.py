@@ -7,7 +7,7 @@ import requests
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(".env")
 
 endpoint = os.environ["AZURE_SEARCH_ENDPOINT"].rstrip("/")
 credential = DefaultAzureCredential()

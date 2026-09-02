@@ -6,7 +6,10 @@
   "skillsetName": "autochunker-ingestor-skillset",
   "targetIndexName": "vectorized-index-v2",
   "disabled": null,
-  "schedule": null,
+  "schedule": {
+    "interval": "P1D",
+    "startTime": "2026-09-02T12:32:30.901Z"
+  },
   "parameters": {
     "batchSize": null,
     "maxFailedItems": null,
