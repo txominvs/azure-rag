@@ -9,29 +9,18 @@ The query layer uses `gpt-4.1` through **Azure AI Foundry** and exposes the RAG 
 ## Architecture
 
 ```mermaid
-flowchart TB
-    subgraph Ingestion
-        A[Documents] --> B[Azure Blob Storage]
-        B --> C[Azure AI Search Indexer]
-        C --> D[Azure AI Search Skillset]
-        F[text-embedding-3-small<br/>Azure AI Foundry] --> D
-        D --> E[Azure AI Search Index]
-    end
+flowchart LR
+    DOC[Documents] --> BLOB[Azure Blob Storage]
 
-    subgraph Deployment
-        K[Docker Image] --> L[Azure Container Registry]
-        L --> G[Azure Container Apps]
-    end
+    BLOB --> SEARCH[Azure AI Search]
+    FOUNDRY[Azure AI Foundry] -->|Embeddings| SEARCH
 
-    subgraph Query
-        U[REST Client] --> G
-        G --> H[RAG API]
-        H --> E
-        E --> H
-        H --> J[gpt-4.1<br/>Azure AI Foundry]
-        J --> H
-        H --> U
-    end
+    CLIENT[REST Client] --> APP[Azure Container Apps<br/>RAG API]
+    APP -->|Retrieve| SEARCH
+    SEARCH -->|Context| APP
+    APP -->|Generate| FOUNDRY
+    FOUNDRY -->|Response| APP
+    APP --> CLIENT
 ```
 
 ## Pipeline
