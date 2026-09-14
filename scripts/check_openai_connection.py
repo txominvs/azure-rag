@@ -2,7 +2,7 @@ import os
 from openai import OpenAI
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from dotenv import load_dotenv
-load_dotenv()
+load_dotenv(".env")
 
 token_provider = get_bearer_token_provider(
     DefaultAzureCredential(),
